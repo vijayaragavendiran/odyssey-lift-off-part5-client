@@ -38,8 +38,13 @@ const TrackCard = ({ track }) => {
     },
   });
 
+  const handleOnclick = () => {
+    window.analytics.track(title, {id,author});
+    incrementTrackViews();
+  }
+
   return (
-    <CardContainer to={`/track/${id}`} onClick={incrementTrackViews}>
+    <CardContainer to={`/track/${id}`} onClick={handleOnclick}>
       <CardContent>
         <CardImageContainer>
           <CardImage src={thumbnail} alt={title} />

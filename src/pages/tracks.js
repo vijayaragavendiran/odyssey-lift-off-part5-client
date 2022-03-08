@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useQuery, gql } from '@apollo/client';
 import TrackCard from '../containers/track-card';
 import { Layout, QueryResult } from '../components';
@@ -27,6 +27,15 @@ export const TRACKS = gql`
 const Tracks = () => {
   const { loading, error, data } = useQuery(TRACKS);
 
+  // Tracking page load events to segment
+  useEffect(() => {
+    if(!loading && data && data.tracksForHome) {
+      window.analytics.page('Track Cards', {
+        totalCatstonauts: data.tracksForHome.length
+      });
+    }
+
+  }, [loading, data]);
   return (
     <Layout grid>
       <QueryResult error={error} loading={loading} data={data}>
